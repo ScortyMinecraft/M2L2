@@ -41,6 +41,7 @@ def send_welcome(message):
 /task - Получить случайное экозадание
 /done - Сообщить о выполнении задания
 /mission - Узнать о нашей миссии
+/refuse - Отказаться от задания (я бы не советовал это делать)
 
 Просто напиши мне что-нибудь! 😊
     """
@@ -79,6 +80,13 @@ def send_mission(message):
     """
     bot.reply_to(message, mission_text)
 
+@bot.message_handler(commands=['refuse'])
+def send_refuse(message):
+    refuse_text = """
+Ах ты негодяй! Грешник! НЕ ПОРТЬ ПЛАНЕТУ!!! ПОЗАБОТЬСЯ О МИРЕ И ОКРУЖАЮЩЕЙ СРЕДЕ!!!
+    """
+    bot.reply_to(message, refuse_text)
+
 # Обработчик обычных текстовых сообщений
 @bot.message_handler(func=lambda message: True)
 def handle_all_messages(message):
@@ -92,6 +100,8 @@ def handle_all_messages(message):
         task_done(message)
     elif any(word in user_text for word in ['миссия', 'цель', 'mission']):
         send_mission(message)
+    elif any(word in user_text for word in ['не выполнил', 'цель не выполнена', 'не хочу', 'отказ','фу']):
+        send_refuse(message)
     else:
         bot.reply_to(message, "Не понял тебя 😊 Напиши /task для задания или /done когда выполнишь!")
 
